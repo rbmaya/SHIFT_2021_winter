@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">0_task</string>
+    <string name="back_button">Back</string>
+    <string name="city_format">City: %1$s</string>
+    <string name="temperature_format">Temperature: %1$s</string>
+    <string name="precipitate_format">Precipitate: %1$s</string>
+</resources>
