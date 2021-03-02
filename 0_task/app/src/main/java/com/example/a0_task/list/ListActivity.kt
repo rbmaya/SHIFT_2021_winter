@@ -1,27 +1,30 @@
 package com.example.a0_task.list
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.a0_task.City
 import com.example.a0_task.CityApplication
-import com.example.a0_task.CityRepository
 import com.example.a0_task.R
 import com.example.a0_task.details.DetailsActivity
 
-class ListActivity : AppCompatActivity() {
-    private lateinit var cityRepository: CityRepository
+class ListActivity : AppCompatActivity(), ListView {
+    private val presenter by lazy {
+        ListPresenter((application as CityApplication).cityRepository)
+    }
 
     private lateinit var citiesList: RecyclerView
     private val adapter = CityAdapter {
-        DetailsActivity.start(this, it.id)
+        presenter.onPersonClicked(it)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        cityRepository = (application as CityApplication).cityRepository
+        presenter.attachView(this)
 
         citiesList = findViewById(R.id.cities_list)
         citiesList.adapter = adapter
@@ -30,6 +33,14 @@ class ListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        adapter.cities = cityRepository.getCities()
+        presenter.onViewResumed()
+    }
+
+    override fun bindCitiesList(list: List<City>) {
+        adapter.cities = list
+    }
+
+    override fun openCityDetailsScreen(id: Long) {
+        DetailsActivity.start(this, id)
     }
 }

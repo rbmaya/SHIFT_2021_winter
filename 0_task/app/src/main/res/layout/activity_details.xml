@@ -34,6 +34,15 @@
         android:textColor="#03A9F4"
         tools:text="Precipitate: Snowy" />
 
+    <ImageView
+        android:id="@+id/precipitate_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/rainy"
+        tools:src="@drawable/rainy"
+         />
+
     <Button
         android:id="@+id/back_button"
         android:layout_width="match_parent"
