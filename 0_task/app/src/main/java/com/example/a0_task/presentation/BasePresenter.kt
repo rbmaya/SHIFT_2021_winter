@@ -1,4 +1,4 @@
-package com.example.a0_task
+package com.example.a0_task.presentation
 
 open class BasePresenter<T : BaseView> {
 

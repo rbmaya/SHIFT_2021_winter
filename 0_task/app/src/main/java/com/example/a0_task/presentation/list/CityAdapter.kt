@@ -1,11 +1,11 @@
-package com.example.a0_task.list
+package com.example.a0_task.presentation.list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a0_task.City
+import com.example.a0_task.domain.City
 import com.example.a0_task.R
 
 class CityAdapter (private val onItemClick: (City) -> Unit) : RecyclerView.Adapter<CityAdapter.CityHolder>() {

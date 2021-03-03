@@ -1,18 +1,16 @@
-package com.example.a0_task.list
+package com.example.a0_task.presentation.list
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a0_task.City
-import com.example.a0_task.CityApplication
 import com.example.a0_task.R
-import com.example.a0_task.details.DetailsActivity
+import com.example.a0_task.domain.City
+import com.example.a0_task.presentation.details.DetailsActivity
 
 class ListActivity : AppCompatActivity(), ListView {
     private val presenter by lazy {
-        ListPresenter((application as CityApplication).cityRepository)
+        ListPresenterFactory.getListPresenter()
     }
 
     private lateinit var citiesList: RecyclerView

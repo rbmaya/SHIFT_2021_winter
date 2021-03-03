@@ -1,4 +1,4 @@
-package com.example.a0_task.details
+package com.example.a0_task.presentation.details
 
 import android.content.Context
 import android.content.Intent
@@ -7,9 +7,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.a0_task.City
-import com.example.a0_task.CityApplication
+import com.example.a0_task.domain.City
 import com.example.a0_task.R
+import com.example.a0_task.data.CityLocalDataSourceImpl
+import com.example.a0_task.data.CityRepositoryImpl
+import com.example.a0_task.domain.GetCityUseCase
 
 class DetailsActivity : AppCompatActivity(), DetailsView {
     companion object {
@@ -23,10 +25,8 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
     }
 
     private val presenter by lazy {
-        DetailPresenter(
-            repository = (application as CityApplication).cityRepository,
-            id = intent.getLongExtra(EXTRA_ID, 0)
-        )
+        val id = intent.getLongExtra(EXTRA_ID, 0)
+        DetailsPresenterFactory.getDetailsPresenter(id)
     }
 
     private lateinit var nameText: TextView

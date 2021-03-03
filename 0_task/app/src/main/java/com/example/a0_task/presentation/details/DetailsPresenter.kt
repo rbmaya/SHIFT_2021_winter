@@ -1,15 +1,15 @@
-package com.example.a0_task.details
+package com.example.a0_task.presentation.details
 
-import com.example.a0_task.BasePresenter
-import com.example.a0_task.CityRepository
+import com.example.a0_task.domain.GetCityUseCase
+import com.example.a0_task.presentation.BasePresenter
 
 class DetailPresenter(
-    private val repository: CityRepository,
+    private val getCityUseCase: GetCityUseCase,
     private val id: Long
 ) : BasePresenter<DetailsView>() {
 
     override fun onViewAttached() {
-        val city = repository.getCity(id)
+        val city = getCityUseCase(id)
 
         if (city != null) {
             view?.bindCity(city)
