@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">0_task</string>
+    <string name="app_name">My Weather</string>
     <string name="back_button">Back</string>
     <string name="city_format">City: %1$s</string>
-    <string name="temperature_format">Temperature: %1$s</string>
+    <string name="temperature_format">Temperature: %1$s °C</string>
+    <string name="temp_main_format">%1$s °C</string>
     <string name="precipitate_format">Precipitate: %1$s</string>
+    <string name="country_format">Country: %1$s</string>
+    <string name="search_text">Search</string>
 </resources>

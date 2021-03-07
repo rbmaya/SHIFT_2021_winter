@@ -1,19 +1,37 @@
 package com.example.a0_task.presentation.list
 
+import androidx.lifecycle.MutableLiveData
 import com.example.a0_task.presentation.BasePresenter
-import com.example.a0_task.domain.City
-import com.example.a0_task.domain.CityRepository
+import com.example.a0_task.domain.city_model.City
 import com.example.a0_task.domain.GetCitiesUseCase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class ListPresenter(private val getCitiesUseCase: GetCitiesUseCase) : BasePresenter<ListView>() {
 
-    fun onViewResumed() {
-        val personList = getCitiesUseCase()
+    val loading = MutableLiveData<Boolean>()
 
-        view?.bindCitiesList(personList)
+    fun onViewResumed() {
+        loading.value = true
+        getCitiesUseCase()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doAfterTerminate{
+                loading.value = false
+            }
+            .subscribe({
+                view?.bindCitiesList(it.list)
+            }, {
+                it.printStackTrace()
+            })
+            .untilDestroy()
     }
 
-    fun onPersonClicked(city: City) {
-        view?.openCityDetailsScreen(city.id)
+    fun onCityClicked(city: City) {
+        view?.openCityDetailsScreen(city.name)
+    }
+
+    fun search(name: String){
+        view?.openCityDetailsScreen(name)
     }
 }

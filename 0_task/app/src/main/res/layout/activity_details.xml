@@ -1,53 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".presentation.details.DetailsActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/name_text"
+    <ProgressBar
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        android:textColor="#4CAF50"
-        tools:text="Moscow" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/temperature_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="18sp"
-        android:textColor="#03A9F4"
-        tools:text="Temperature: 0" />
 
-    <TextView
-        android:id="@+id/precipitate_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="18sp"
-        android:textColor="#03A9F4"
-        tools:text="Precipitate: Snowy" />
-
-    <ImageView
-        android:id="@+id/precipitate_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/rainy"
-        tools:src="@drawable/rainy"
-         />
-
-    <Button
-        android:id="@+id/back_button"
+    <LinearLayout
+        android:id="@+id/details_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="@string/back_button" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:context=".presentation.details.DetailsActivity">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:textColor="#4CAF50"
+                android:textSize="30sp"
+
+                tools:text="Moscow" />
+
+            <ImageView
+                android:id="@+id/precipitate_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center" />
+
+            >
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/country_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textColor="#03A9F4"
+            android:textSize="18sp"
+            tools:text="Country: Russia" />
+
+        <TextView
+            android:id="@+id/temperature_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textColor="#03A9F4"
+            android:textSize="18sp"
+            tools:text="Temperature: 0" />
+
+        <TextView
+            android:id="@+id/precipitate_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textColor="#03A9F4"
+            android:textSize="18sp"
+            tools:text="Precipitate: Snowy" />
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/back_button" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

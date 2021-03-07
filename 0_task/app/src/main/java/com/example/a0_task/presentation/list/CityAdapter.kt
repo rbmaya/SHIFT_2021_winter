@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a0_task.domain.City
 import com.example.a0_task.R
+import com.example.a0_task.domain.city_model.City
 
 class CityAdapter (private val onItemClick: (City) -> Unit) : RecyclerView.Adapter<CityAdapter.CityHolder>() {
 
@@ -34,8 +34,9 @@ class CityAdapter (private val onItemClick: (City) -> Unit) : RecyclerView.Adapt
         private val temperatureText = itemView.findViewById<TextView>(R.id.temperature_text)
 
         fun bind(city: City) {
-            nameText.text = itemView.context.getString(R.string.city_format, city.name)
-            temperatureText.text = city.temperature
+            nameText.text = city.name
+            val tempFar = (city.main.temp - 273).toInt()
+            temperatureText.text = itemView.context.getString(R.string.temp_main_format, tempFar.toString())
             itemView.setOnClickListener { onItemClick(city) }
         }
     }

@@ -1,7 +1,11 @@
 package com.example.a0_task.domain
 
-interface CityRepository {
-    fun getCity(id: Long): City?
+import com.example.a0_task.domain.city_model.City
+import com.example.a0_task.domain.city_model.Response
+import io.reactivex.Single
 
-    fun getCities(): List<City>
+interface CityRepository {
+    fun getCity(name: String): Single<City>
+
+    fun getCities(): Single<Response>
 }
