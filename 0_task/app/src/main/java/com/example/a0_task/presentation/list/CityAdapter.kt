@@ -1,11 +1,10 @@
 package com.example.a0_task.presentation.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a0_task.R
+import com.example.a0_task.databinding.ItemCityBinding
 import com.example.a0_task.domain.city_model.City
 
 class CityAdapter (private val onItemClick: (City) -> Unit) : RecyclerView.Adapter<CityAdapter.CityHolder>() {
@@ -17,8 +16,9 @@ class CityAdapter (private val onItemClick: (City) -> Unit) : RecyclerView.Adapt
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_city, parent, false)
-        return CityHolder(view, onItemClick)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val itemCityBinding = ItemCityBinding.inflate(layoutInflater, parent, false)
+        return CityHolder(itemCityBinding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: CityHolder, position: Int) {
@@ -28,15 +28,13 @@ class CityAdapter (private val onItemClick: (City) -> Unit) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = cities.count()
 
-    class CityHolder(itemView: View, private val onItemClick: (City) -> Unit) : RecyclerView.ViewHolder(itemView) {
-
-        private val nameText = itemView.findViewById<TextView>(R.id.name_text)
-        private val temperatureText = itemView.findViewById<TextView>(R.id.temperature_text)
+    class CityHolder(private val itemCityBinding: ItemCityBinding,
+                     private val onItemClick: (City) -> Unit) : RecyclerView.ViewHolder(itemCityBinding.root) {
 
         fun bind(city: City) {
-            nameText.text = city.name
+            itemCityBinding.nameText.text = city.name
             val tempFar = (city.main.temp - 273).toInt()
-            temperatureText.text = itemView.context.getString(R.string.temp_main_format, tempFar.toString())
+            itemCityBinding.temperatureText.text = itemView.context.getString(R.string.temp_main_format, tempFar.toString())
             itemView.setOnClickListener { onItemClick(city) }
         }
     }

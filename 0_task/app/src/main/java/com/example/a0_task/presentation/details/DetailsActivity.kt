@@ -3,11 +3,11 @@ package com.example.a0_task.presentation.details
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.a0_task.domain.city_model.City
 import com.example.a0_task.R
+import com.example.a0_task.databinding.ActivityDetailsBinding
 import com.squareup.picasso.Picasso
 
 class DetailsActivity : AppCompatActivity(), DetailsView {
@@ -26,48 +26,30 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
         DetailsPresenterFactory.getDetailsPresenter(name ?: "Unknown")
     }
 
-    private lateinit var nameText: TextView
-    private lateinit var temperatureText: TextView
-    private lateinit var precipitateText: TextView
-    private lateinit var precipitateImage: ImageView
-    private lateinit var countryText: TextView
-    private lateinit var backButton: Button
-    private lateinit var progressBar: ProgressBar
-    private lateinit var linearLayout: LinearLayout
+    private lateinit var binding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
-        initViews()
+        binding = ActivityDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.loading.observe(this){
-            linearLayout.isVisible = !it
-            progressBar.isVisible = it
+            binding.detailsLinearLayout.isVisible = !it
+            binding.progressBar.isVisible = it
         }
         presenter.attachView(this)
     }
 
-    private fun initViews() {
-        nameText = findViewById(R.id.name_text)
-        temperatureText = findViewById(R.id.temperature_text)
-        precipitateText = findViewById(R.id.precipitate_text)
-        precipitateImage = findViewById(R.id.precipitate_icon)
-        countryText = findViewById(R.id.country_text)
-        backButton = findViewById(R.id.back_button)
-        progressBar = findViewById(R.id.progress_bar)
-        linearLayout = findViewById(R.id.details_linear_layout)
-    }
-
     override fun bindCity(city: City) {
-        nameText.text = getString(R.string.city_format, city.name)
+        binding.nameText.text = getString(R.string.city_format, city.name)
         val tempFar = (city.main.temp - 273).toInt()
-        temperatureText.text = getString(R.string.temperature_format, tempFar.toString())
-        precipitateText.text = getString(R.string.precipitate_format, city.weather[0].description)
-        countryText.text = getString(R.string.country_format, city.sys.country)
+        binding.temperatureText.text = getString(R.string.temperature_format, tempFar.toString())
+        binding.precipitateText.text = getString(R.string.precipitate_format, city.weather[0].description)
+        binding.countryText.text = getString(R.string.country_format, city.sys.country)
 
         val url = "http://openweathermap.org/img/wn/${city.weather[0].icon}@2x.png"
-        Picasso.with(this).load(url).resize(40, 40).into(precipitateImage)
+        Picasso.with(this).load(url).resize(40, 40).into(binding.precipitateIcon)
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             presenter.getBack()
         }
     }

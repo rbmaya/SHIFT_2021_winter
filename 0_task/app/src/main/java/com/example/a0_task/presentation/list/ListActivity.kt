@@ -1,14 +1,11 @@
 package com.example.a0_task.presentation.list
 
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.a0_task.R
+import com.example.a0_task.databinding.ActivityListBinding
 import com.example.a0_task.domain.city_model.City
 import com.example.a0_task.presentation.details.DetailsActivity
 import com.squareup.picasso.Picasso
@@ -17,11 +14,8 @@ class ListActivity : AppCompatActivity(), ListView {
     private val presenter by lazy {
         ListPresenterFactory.getListPresenter()
     }
-    private lateinit var citiesList: RecyclerView
-    private lateinit var searchEditText: EditText
-    private lateinit var searchButton: ImageButton
-    private lateinit var progressBar: ProgressBar
 
+    private lateinit var binding: ActivityListBinding
 
     private val adapter = CityAdapter {
         presenter.onCityClicked(it)
@@ -29,33 +23,30 @@ class ListActivity : AppCompatActivity(), ListView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        binding = ActivityListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initViews()
 
         presenter.attachView(this)
         presenter.loading.observe(this){
-            citiesList.isVisible = !it
-            progressBar.isVisible = it
+            binding.citiesList.isVisible = !it
+            binding.mainProgressBar.isVisible = it
         }
 
-        citiesList.adapter = adapter
-        citiesList.layoutManager = LinearLayoutManager(this)
+        binding.citiesList.adapter = adapter
+        binding.citiesList.layoutManager = LinearLayoutManager(this)
     }
 
     fun initViews(){
-        citiesList = findViewById(R.id.cities_list)
-        searchEditText = findViewById(R.id.search_edit_text)
-        searchButton = findViewById(R.id.search_button)
         Picasso
             .with(this)
             .load(R.drawable.search_icon)
             .resize(90, 90)
-            .into(searchButton)
-        searchButton.setOnClickListener {
-            presenter.search(searchEditText.text.toString())
+            .into(binding.searchButton)
+        binding.searchButton.setOnClickListener {
+            presenter.search(binding.searchEditText.text.toString())
         }
-        progressBar = findViewById(R.id.main_progress_bar)
     }
 
     override fun onResume() {
