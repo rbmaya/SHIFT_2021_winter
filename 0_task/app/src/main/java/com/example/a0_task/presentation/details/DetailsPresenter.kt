@@ -1,6 +1,5 @@
 package com.example.a0_task.presentation.details
 
-import androidx.lifecycle.MutableLiveData
 import com.example.a0_task.domain.GetCityUseCase
 import com.example.a0_task.presentation.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,15 +10,12 @@ class DetailPresenter(
     private val name: String
 ) : BasePresenter<DetailsView>() {
 
-    val loading = MutableLiveData<Boolean>()
-
     override fun onViewAttached() {
-        loading.value = true
+        view?.setIsLoading(true)
         getCityUseCase(name)
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterTerminate{
-                loading.value = false
+                view?.setIsLoading(false)
             }
             .subscribe({
                 view?.bindCity(it)

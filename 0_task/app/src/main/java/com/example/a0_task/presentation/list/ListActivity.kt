@@ -1,6 +1,7 @@
 package com.example.a0_task.presentation.list
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,10 +30,6 @@ class ListActivity : AppCompatActivity(), ListView {
         initViews()
 
         presenter.attachView(this)
-        presenter.loading.observe(this){
-            binding.citiesList.isVisible = !it
-            binding.mainProgressBar.isVisible = it
-        }
 
         binding.citiesList.adapter = adapter
         binding.citiesList.layoutManager = LinearLayoutManager(this)
@@ -52,6 +49,11 @@ class ListActivity : AppCompatActivity(), ListView {
     override fun onResume() {
         super.onResume()
         presenter.onViewResumed()
+    }
+
+    override fun setIsLoading(loading: Boolean) {
+        binding.mainProgressBar.isVisible = loading
+        binding.citiesList.isVisible = !loading
     }
 
     override fun bindCitiesList(list: List<City>) {

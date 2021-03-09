@@ -32,11 +32,12 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter.loading.observe(this){
-            binding.detailsLinearLayout.isVisible = !it
-            binding.progressBar.isVisible = it
-        }
         presenter.attachView(this)
+    }
+
+    override fun setIsLoading(loading: Boolean) {
+        binding.progressBar.isVisible = loading
+        binding.detailsLinearLayout.isVisible = !loading
     }
 
     override fun bindCity(city: City) {
