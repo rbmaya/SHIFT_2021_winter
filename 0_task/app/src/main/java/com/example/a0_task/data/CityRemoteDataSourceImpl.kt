@@ -5,7 +5,7 @@ import com.example.a0_task.domain.city_model.Response
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
-class CityLocalDataSourceImpl(private val api: CityApi): CityDataSource {
+class CityRemoteDataSourceImpl(private val api: CityApi): CityDataSource {
 
     override fun getCity(name: String): Single<City> = api.getCity(name)
         .subscribeOn(Schedulers.io())

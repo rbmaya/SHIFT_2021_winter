@@ -3,9 +3,8 @@ package com.example.a0_task.presentation.details
 import com.example.a0_task.domain.GetCityUseCase
 import com.example.a0_task.presentation.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
-class DetailPresenter(
+class DetailsPresenter(
     private val getCityUseCase: GetCityUseCase,
     private val name: String
 ) : BasePresenter<DetailsView>() {
