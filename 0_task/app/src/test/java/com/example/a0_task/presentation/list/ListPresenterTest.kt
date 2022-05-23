@@ -3,12 +3,9 @@ package com.example.a0_task.presentation.list
 import com.example.a0_task.domain.GetCitiesUseCase
 import com.example.a0_task.domain.city_model.City
 import com.example.a0_task.domain.city_model.Response
-import com.example.a0_task.presentation.list.ListPresenter
-import com.example.a0_task.presentation.list.ListView
 import io.mockk.*
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test

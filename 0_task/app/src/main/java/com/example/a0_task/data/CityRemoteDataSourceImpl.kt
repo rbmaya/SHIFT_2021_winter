@@ -1,15 +1,16 @@
 package com.example.a0_task.data
 
 import com.example.a0_task.domain.city_model.City
-import com.example.a0_task.domain.city_model.Response
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class CityRemoteDataSourceImpl(private val api: CityApi): CityDataSource {
+@Singleton
+class CityRemoteDataSourceImpl @Inject constructor(
+    private val api: CityApi
+) : CityDataSource {
 
-    override fun getCity(name: String): Single<City> = api.getCity(name)
-        .subscribeOn(Schedulers.io())
+    override suspend fun getCity(name: String): City = api.getCity(name)
 
-    override fun getCities(): Single<Response> = api.getCitiesList()
-        .subscribeOn(Schedulers.io())
+    override suspend fun getCities(): List<City> = api.getCitiesList().list
+
 }

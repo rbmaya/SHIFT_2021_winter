@@ -3,14 +3,23 @@ package com.example.a0_task.presentation.details
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.example.a0_task.domain.city_model.City
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.example.a0_task.R
 import com.example.a0_task.databinding.ActivityDetailsBinding
+import com.example.a0_task.domain.city_model.City
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailsActivity : AppCompatActivity(), DetailsView {
+@AndroidEntryPoint
+class DetailsActivity : AppCompatActivity() {
     companion object {
         private const val EXTRA_NAME = "EXTRA_NAME"
 
@@ -21,9 +30,12 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
         }
     }
 
-    private val presenter by lazy {
+    @Inject
+    lateinit var viewModelAssistedFactory: DetailsViewModel.DetailsViewModelFactory
+
+    val viewModel: DetailsViewModel by viewModels {
         val name = intent.getStringExtra(EXTRA_NAME)
-        DetailsPresenterFactory.getDetailsPresenter(name ?: "Unknown")
+        DetailsViewModel.provideFactory(viewModelAssistedFactory, name ?: "Unknown")
     }
 
     private lateinit var binding: ActivityDetailsBinding
@@ -32,15 +44,29 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter.attachView(this)
+
+        lifecycleScope.launch {
+            viewModel.isLoading.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { isLoading ->
+                    setIsLoading(isLoading)
+                }
+        }
+
+        lifecycleScope.launch {
+            viewModel.city.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { city ->
+                    bindCity(city)
+                }
+        }
+
     }
 
-    override fun setIsLoading(loading: Boolean) {
+    fun setIsLoading(loading: Boolean) {
         binding.progressBar.isVisible = loading
         binding.detailsLinearLayout.isVisible = !loading
     }
 
-    override fun bindCity(city: City) {
+    fun bindCity(city: City) {
         binding.nameText.text = getString(R.string.city_format, city.name)
         val tempFar = (city.main.temp - 273).toInt()
         binding.temperatureText.text = getString(R.string.temperature_format, tempFar.toString())
@@ -51,11 +77,11 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
         Picasso.with(this).load(url).resize(40, 40).into(binding.precipitateIcon)
 
         binding.backButton.setOnClickListener {
-            presenter.getBack()
+            closeScreen()
         }
     }
 
-    override fun closeScreen() {
+    fun closeScreen() {
         finish()
     }
 

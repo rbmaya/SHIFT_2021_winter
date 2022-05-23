@@ -1,11 +1,10 @@
 package com.example.a0_task.domain
 
 import com.example.a0_task.domain.city_model.City
-import com.example.a0_task.domain.city_model.Response
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface CityRepository {
-    fun getCity(name: String): Single<City>
+    fun getCity(name: String): Flow<City>
 
-    fun getCities(): Single<Response>
+    fun getCities(): Flow<List<City>>
 }

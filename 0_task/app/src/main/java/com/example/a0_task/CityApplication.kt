@@ -1,6 +1,7 @@
 package com.example.a0_task
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class CityApplication: Application() {
-}
+@HiltAndroidApp
+class CityApplication: Application()

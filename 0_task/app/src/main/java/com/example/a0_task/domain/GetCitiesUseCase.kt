@@ -1,8 +1,13 @@
 package com.example.a0_task.domain
 
-import com.example.a0_task.domain.city_model.Response
-import io.reactivex.Single
+import com.example.a0_task.domain.city_model.City
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class GetCitiesUseCase(private val cityRepository: CityRepository) {
-    operator fun invoke(): Single<Response> = cityRepository.getCities()
+@Singleton
+class GetCitiesUseCase @Inject constructor(
+    private val cityRepository: CityRepository
+) {
+    operator fun invoke(): Flow<List<City>> = cityRepository.getCities()
 }
